@@ -1,0 +1,123 @@
+grammar org.xtext.selenium.selemodel.SeleModel with org.eclipse.xtext.common.Terminals
+
+generate seleModel "http://www.xtext.org/selenium/selemodel/SeleModel"
+
+Model:
+	main=Main
+	functions+=Function*
+;
+
+Main :
+	"main" "{"
+		expressions+=Expression*
+	"}"
+;
+	
+Function:
+	'function' name=ID '(' (param+=Declaration(',' param+=Declaration)*)?')' '{'
+		(expressions+=Expression)*
+	'}';
+	
+FunctionCall:
+	ref=[Function] '('(param+=Attribuable(',' param+=Attribuable)*)?')'
+;
+
+Expression:
+	dec=Declaration | att=Attribution | act=Action | ass=Assertion | FunctionCall
+;
+
+Assertion :
+	"assert" ((att1=Attribuable "equal" att2=Attribuable) 
+		| (con1=Container "contain" con2=Container))
+;
+
+Declaration:
+	'var' var+=Var
+;
+
+Var :
+	name=ID
+;
+
+Attribuable :
+	str=STRING | attr=Attribut | ref=[Var]
+;
+
+Attribution :
+	var=[Var] "=" attb=Attribuable
+;
+
+Attribut :
+	((container=Container)"."(champ=Champ | len=Length)) |
+	((containers=Containers)"."len=Length)
+;
+
+Length :
+	"length"
+;
+
+Action :
+	OpenBrowser | Fill | Click | Navigate | Choose | Check | Uncheck
+;
+
+Fill :
+	"fill" container=Container attb=Attribuable
+;
+
+Click :
+	"click" container=Container
+;
+
+Navigate :
+	"navigate" attb=Attribuable
+;
+
+Choose :
+	"choose" container=Container attb=Attribuable
+;
+
+Check :
+	"check" (container=Container | containers=Containers)
+;
+
+Uncheck :
+	"uncheck" (container=Container | containers=Containers)
+;
+
+OpenBrowser :
+	"openbrowser" browser=Browsers
+;
+
+Container :
+	'['typeContainer=TypeContainer conditions+=Condition*']' 
+	(hierarchy+=ParentContainer | hierarchy+=ChildContainer)*	
+;
+
+Containers :
+	'[['typeContainer=TypeContainer conditions+=Condition*']]'
+;
+
+Condition :
+	champ=Champ "=" (str=STRING | ref=[Var])
+;
+
+ParentContainer:
+	".parent"
+;
+
+ChildContainer:
+	".child"
+;
+
+Browsers :
+	"firefox" | "default" | "chrome"
+;
+
+Champ :
+	"id" | "class" | "inner" | "value" | "href" | "title" | "type" | "alt"
+;
+
+TypeContainer :
+	"Elm" | "Body" | "Input" | "Div" | "Select" | "Link" | "Img"
+;
+
