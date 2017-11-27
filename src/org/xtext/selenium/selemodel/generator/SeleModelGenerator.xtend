@@ -7,6 +7,17 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import org.xtext.selenium.selemodel.seleModel.Model
+import org.xtext.selenium.selemodel.seleModel.Expression
+import org.xtext.selenium.selemodel.seleModel.Action
+import org.xtext.selenium.selemodel.seleModel.Assertion
+import org.xtext.selenium.selemodel.seleModel.Attribution
+import org.xtext.selenium.selemodel.seleModel.Declaration
+import org.xtext.selenium.selemodel.seleModel.FunctionCall
+import org.xtext.selenium.selemodel.seleModel.Attribut
+import org.xtext.selenium.selemodel.seleModel.Container
+import org.xtext.selenium.selemodel.seleModel.Containers
+import org.xtext.selenium.selemodel.seleModel.Function
 
 /**
  * Generates code from your model files on save.
