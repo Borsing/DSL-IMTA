@@ -23,7 +23,7 @@ FunctionCall:
 ;
 
 Expression:
-	dec=Declaration | att=Attribution | act=Action | ass=Assertion | FunctionCall
+	dec=Declaration | att=Attribution | act=Action | ass=Assertion | fun=FunctionCall
 ;
 
 Assertion :
@@ -32,7 +32,7 @@ Assertion :
 ;
 
 Declaration:
-	'var' var+=Var
+	'var' var=Var
 ;
 
 Var :
