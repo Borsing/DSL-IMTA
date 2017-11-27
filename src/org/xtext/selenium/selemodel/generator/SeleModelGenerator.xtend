@@ -38,7 +38,7 @@ class SeleModelGenerator extends AbstractGenerator {
 		«IF e.act != null»
 			«e.act.generateAction»
 		«ELSEIF e.ass != null»
-			«e.act.generateAssertion»
+			«e.ass.generateAssertion»
 		«ELSEIF e.att != null»
 			«e.att.generateAttribution»
 		«ELSEIF e.dec != null»
@@ -71,7 +71,7 @@ class SeleModelGenerator extends AbstractGenerator {
 	def generateAttribut(Attribut a)'''
 		«IF a.container != null»
 			«a.container.generateContainer»
-		«ELSEIF»
+		«ELSEIF a.containers != null»
 			«a.containers.generateContainers»
 		«ENDIF»
 	'''
@@ -86,7 +86,7 @@ class SeleModelGenerator extends AbstractGenerator {
 	
 	def generateFunction(Function f)'''
 		public void «f.name»(«FOR p : f.param»«IF f.param.indexOf(p) >= 1», «ENDIF» String «p.^var.name» «ENDFOR») {
-		«FOR e : m.main.expressions»
+		«FOR e : f.expressions»
 			«e.generateExpression»
 		«ENDFOR»
 		}
