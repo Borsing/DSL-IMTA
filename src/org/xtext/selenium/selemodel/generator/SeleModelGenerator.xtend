@@ -16,10 +16,79 @@ import org.eclipse.xtext.generator.IGeneratorContext
 class SeleModelGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(typeof(Greeting))
-//				.map[name]
-//				.join(', '))
+		fsa.generateFile("Main.java",resource.contents.filter(Model).head.generateModel)
 	}
+	
+	def generateModel(Model m) '''
+		package model;
+		
+		public class Main {
+			public static void main(String args[]){
+				«FOR e : m.main.expressions»
+					«e.generateExpression»
+				«ENDFOR»
+			}
+			
+			«FOR f : m.functions»
+				«f.generateFunction»
+			«ENDFOR»
+		}
+	'''
+	def generateExpression(Expression e) '''
+		«IF e.act != null»
+			«e.act.generateAction»
+		«ELSEIF e.ass != null»
+			«e.act.generateAssertion»
+		«ELSEIF e.att != null»
+			«e.att.generateAttribution»
+		«ELSEIF e.dec != null»
+			«e.dec.generateDeclaration»
+		«ELSEIF e.fun != null»
+			«e.fun.generateFunctionCall»
+		«ENDIF»
+	'''
+	
+	def generateAction(Action a) '''
+	
+	'''
+	
+	def generateAssertion(Assertion a) '''
+	
+	'''
+	
+	def generateAttribution(Attribution a)'''
+		«a.^var.name» = «IF a.attb.str != null» "«a.attb.str»" «ELSEIF a.attb.ref != null» «a.attb.ref.name» «ELSEIF a.attb.attr != null» «a.attb.attr.generateAttribut» «ENDIF» ;
+	'''
+	
+	def generateDeclaration(Declaration d)'''
+		String «d.^var.name» ;
+	'''
+	
+	def generateFunctionCall(FunctionCall f)'''
+		
+	'''
+	
+	def generateAttribut(Attribut a)'''
+		«IF a.container != null»
+			«a.container.generateContainer»
+		«ELSEIF»
+			«a.containers.generateContainers»
+		«ENDIF»
+	'''
+	
+	def generateContainer(Container c)'''
+	
+	'''
+	
+	def generateContainers(Containers c)'''
+	
+	'''
+	
+	def generateFunction(Function f)'''
+		public void «f.name»(«FOR p : f.param»«IF f.param.indexOf(p) >= 1», «ENDIF» String «p.^var.name» «ENDFOR») {
+		«FOR e : m.main.expressions»
+			«e.generateExpression»
+		«ENDFOR»
+		}
+	'''
 }
