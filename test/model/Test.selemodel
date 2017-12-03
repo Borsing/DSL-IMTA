@@ -1,0 +1,90 @@
+test {
+	openbrowser default 
+	navigate "http://www.imt-atlantique.fr/fr" 
+	assert [body] contain [a title="Toutes les actualités" inner="Toutes les actualités"]
+}
+
+test { 
+	openbrowser default 
+    navigate "http://www.imt-atlantique.fr/fr" 
+    click [a inner="Toutes les actualités"]
+    assert [body] contain [a inner="Accueil"]
+}
+
+test {
+	openbrowser default
+	navigate "http://www.imt-atlantique.fr/fr" 
+ 	click [a inner="Toutes les actualités"]
+	click [img alt="Accueil"]
+	assert [body] contain [a title="Toutes les actualités"]
+}
+
+test {
+	openbrowser default 
+   	navigate "http://www.imt-atlantique.fr/fr/rechercher"
+	fill [input id="edit-search-api-fulltext"] "Donald Trump" 	
+	click [elm id="edit-submit-recherche2"] 
+	assert [body] contain [div inner="Aucun résultat ne correspond à votre recherche"]
+}
+
+test {
+	openbrowser default 
+   	navigate "http://www.imt-atlantique.fr/fr/formation/trouver-ma-formation" 
+	uncheck [[input type="checkbox"]]
+	check [label inner="Anglais"]
+	check [label inner="A domicile"]
+	click [input value="Appliquer les critères"]
+	assert [body] contain [div inner="Aucune formation trouvée répondant à vos critères"]
+}
+
+test {
+	openbrowser default 
+  	navigate "http://www.imt-atlantique.fr/fr/rechercher"
+	fill [elm id="edit-search-api-fulltext"] "2007"
+	choose [select id="edit-selecteur"] "Le mois dernier"
+	click [input value="Appliquer les filtres"]
+	assert [body] contain [div inner="Aucun résultat ne correspond à votre recherche"]
+}
+test {
+	var var1
+	var var2
+	openbrowser default 
+  	navigate "http://www.imt-atlantique.fr/fr"
+	var1 = [elm class="actu_home_ctner_inner_cell1_titre"].inner
+	var2 = [elm class="actu_home_ctner_inner_cell1_titre"].nodeParent.pathname
+  	navigate "http://www.imt-atlantique.fr/fr/rechercher"
+	fill [elm id="edit-search-api-fulltext"] var1
+	click [input value="Appliquer les filtres"]
+	assert [body] contain [a href=var2]
+}
+
+test {
+	var var1
+	var var2
+	openbrowser default
+  	navigate  "http://www.imt-atlantique.fr/fr/rechercher"
+	fill [elm id="edit-search-api-fulltext"] "2007" 
+	click [input value="Appliquer les filtres"]
+	var1 = [[div class="views-row"]].length
+	choose [select id="edit-selecteur"] "Le mois dernier" 
+	click [input value="Appliquer les filtres"]
+	var2 = [[div class="views-row"]].length
+	assert var1 equal var2
+}
+
+test {
+	openbrowser default
+  	myFunction("Communiqués de Presse")
+  	myFunction("Dossiers de Presse")
+  	myFunction("Visuels pour la Presse")
+  	myFunction("La presse en parle ")
+  	myFunction("Tribunes de presse")
+  	myFunction("Les palmarès")
+}
+
+function myFunction(var param1){
+	navigate  "http://www.imt-atlantique.fr/fr"
+    click [a inner=param1]
+	assert [body] contain [a title="Imprimer"]
+    click [a title="Imprimer"]
+}

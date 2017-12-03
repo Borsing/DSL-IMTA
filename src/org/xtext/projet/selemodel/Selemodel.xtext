@@ -1,0 +1,100 @@
+grammar org.xtext.projet.selemodel.Selemodel with org.eclipse.xtext.common.Terminals
+
+generate selemodel "http://www.xtext.org/projet/selemodel/Selemodel"
+
+Model:
+    test+=Test*
+    functions+=Function*
+;
+Test :
+    "test" "{"
+        expressions+=Expression*
+    "}"
+;
+    
+Function:
+    'function' name=ID '(' (param+=Declaration(',' param+=Declaration)*)?')' '{'
+        (expressions+=Expression)*
+    '}';
+    
+FunctionCall:
+    ref=[Function] '('(param+=Attribuable(',' param+=Attribuable)*)?')'
+;
+Expression:
+    dec=Declaration | att=Attribution | act=Action | ass=Assertion | fun=FunctionCall | decatt = DeclarationAttribution
+;
+Assertion :
+    "assert" ((att1=Attribuable "equal" att2=Attribuable) 
+        | (con1=Container "contain" con2=Container))
+;
+Declaration:
+    'var' var=Var
+;
+DeclarationAttribution:
+    dec=Declaration '=' attb=Attribuable
+;
+Var :
+    name=ID
+;
+Attribuable :
+    str=STRING | attr=Attribut | ref=[Var]
+;
+Attribution :
+    var=[Var] "=" attb=Attribuable
+;
+Attribut :
+    ((container=Container)"."(champ=Champ | len=Length)) |
+    ((containers=Containers)"."len=Length)
+;
+Length :
+    "length"
+;
+Action :
+    brw=OpenBrowser | fil=Fill | cli=Click | nav=Navigate | cho=Choose | che=Check | unc=Uncheck
+;
+Fill :
+    "fill" container=Container attb=Attribuable
+;
+Click :
+    "click" container=Container
+;
+Navigate :
+    "navigate" attb=Attribuable
+;
+Choose :
+    "choose" container=Container attb=Attribuable
+;
+Check :
+    "check" (container=Container | containers=Containers)
+;
+Uncheck :
+    "uncheck" (container=Container | containers=Containers)
+;
+OpenBrowser :
+    "openbrowser" browser=Browsers
+;
+Container :
+    '['typeContainer=TypeContainer conditions+=Condition*']' 
+    (hierarchy+=ParentContainer | hierarchy+=ChildContainer)*   
+;
+Containers :
+    '[['typeContainer=TypeContainer conditions+=Condition*']]'
+;
+Condition :
+    champ=Champ "=" (str=STRING | ref=[Var])
+;
+ParentContainer:
+    ".nodeParent"
+;
+ChildContainer:
+    ".nodeChild"
+;
+Browsers :
+    "default" | "chrome"
+;
+Champ :
+    "id" | "class" | "inner" | "value" | "href" | "title" | "type" | "pathname" | "alt"
+;
+TypeContainer :
+    "elm" | "body" | "input" | "div" | "select" | "a" | "img" | "label"
+;

@@ -1,0 +1,14 @@
+test {
+	var var1
+	var var2
+	
+	openbrowser default 
+  	navigate  "http://www.imt-atlantique.fr/fr/rechercher"
+	fill [elm id="edit-search-api-fulltext"] "2007" 
+	click [input value="Appliquer les filtres"]
+	var1 = [[div class="views-row"]].length
+	choose [select id="edit-selecteur"] "Le mois dernier" 
+	click [input value="Appliquer les filtres"]
+	var2 = [[div class="views-row"]].length
+	assert var1 equal var2
+}

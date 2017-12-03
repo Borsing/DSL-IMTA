@@ -1,0 +1,13 @@
+test {
+	var var1
+	var var2
+	
+	openbrowser default 
+  	navigate "http://www.imt-atlantique.fr/fr"
+	var1 = [elm class="actu_home_ctner_inner_cell1_titre"].inner
+	var2 = [elm class="actu_home_ctner_inner_cell1_titre"].nodeParent.pathname
+  	navigate "http://www.imt-atlantique.fr/fr/rechercher"
+	fill [elm id="edit-search-api-fulltext"] var1
+	click [input value="Appliquer les filtres"]
+	assert [body] contain [a href=var2]
+}

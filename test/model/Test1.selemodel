@@ -1,0 +1,5 @@
+test {
+	openbrowser default
+	navigate "http://www.imt-atlantique.fr/fr" 
+	assert [body] contain [a title="Toutes les actualités" inner="Toutes les actualités"]
+}

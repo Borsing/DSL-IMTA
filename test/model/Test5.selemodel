@@ -1,0 +1,9 @@
+test {
+	openbrowser default 
+   	navigate "http://www.imt-atlantique.fr/fr/formation/trouver-ma-formation" 
+	uncheck [[input type="checkbox"]]
+	check [label inner="Anglais"]
+	check [label inner="A domicile"]
+	click [input value="Appliquer les critères"]
+	assert [body] contain [div inner="Aucune formation trouvée répondant à vos critères"]
+}

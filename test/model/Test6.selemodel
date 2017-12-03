@@ -1,0 +1,8 @@
+test {
+	openbrowser default 
+  	navigate "http://www.imt-atlantique.fr/fr/rechercher"
+	fill [elm id="edit-search-api-fulltext"] "2007"
+	choose [select id="edit-selecteur"] "Le mois dernier"
+	click [input value="Appliquer les filtres"]
+	assert [body] contain [div inner="Aucun résultat ne correspond à votre recherche"]
+}

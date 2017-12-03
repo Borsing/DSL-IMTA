@@ -1,0 +1,16 @@
+test {
+	openbrowser default 
+  	myFunction("Communiqués de Presse")
+  	myFunction("Dossiers de Presse")
+  	myFunction("Visuels pour la Presse")
+  	myFunction("La presse en parle ")
+  	myFunction("Tribunes de presse")
+  	myFunction("Les palmarès")
+}
+
+function myFunction(var param1){
+	navigate  "http://www.imt-atlantique.fr/fr"
+    click [a inner=param1]
+	assert [body] contain [a title="Imprimer"]
+    click [a title="Imprimer"]
+}
