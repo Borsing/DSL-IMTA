@@ -49,17 +49,17 @@ uncheck [[input type="checkbox"]]
 
 Il est possible de naviguer vers le parent ou l'enfant d'un container ([container].nodeParent.nodeParent.nodeChild), de récupérer les champs de container([container].champ, [container].nodeParent.champ mais il n'est pas possible pour [[containers]]) la taille ([container].length [[containers]].length) et des les stockers dans des variables
 ```
-	var var1
-	var var2
-	var1 = [[div class="views-row"]].length
+  var var1
+  var var2
+  var1 = [[div class="views-row"]].length
   var2 = [elm class="actu_home_ctner_inner_cell1_titre"].nodeParent.pathname
   var2 = var1
   var1 = "toto"
 ```
 Et finalement, afin de vérifier des égalités, il est possible de comparer des variables ou de vérifier si un container en contient un autre 
 ```
-	var2 = [elm class="actu_home_ctner_inner_cell1_titre"].nodeParent.pathname
-	assert [body] contain [a href=var2]
+  var2 = [elm class="actu_home_ctner_inner_cell1_titre"].nodeParent.pathname
+  assert [body] contain [a href=var2]
   assert [body] contain [a title="Toutes les actualités" inner="Toutes les actualités"]
   assert var1 equal var2
 ```
@@ -88,6 +88,6 @@ Action :
     check [label inner="toto"] | [[input type="checkbox"]]
 
     //decoche un checkbox si checked
-	  uncheck [intput id="checkbox"] | [[input type="checkbox"]]
+    uncheck [intput id="checkbox"] | [[input type="checkbox"]]
 
 ```
